@@ -2,6 +2,18 @@ const os = require("os");
 const packageJson = require("./package.json"); // Get package details
 
 module.exports = {
+  ARTISTS:[
+      "Ranwan Liyanage original",
+      "Amal Perera original",
+      "Clarence Wijewardena original",
+      "Sunil Edirisinghe original",
+      "Victor Ratnayake original",
+      "Nanda Malini original",
+      "Sanuka Wickramasinghe original",
+      "Kasun Kalhara original",
+      "Uresha Ravihari original",
+      "Dinesh Kanagaratnam original"
+    ],
   //====================menu=================================
   MENUMSG: function (pushname, runtime, config) {
     return `
@@ -277,4 +289,65 @@ ${description}
 🎬 *Enjoy the video brought to you by Queen Anju Bot!* 
         `.trim();
   },
+  //=====================hiru news===========================================
+  AUTONEWS: function (source, newsData, isGroup, groupMetadata, conf) {
+    return `
+📰 *『 𝑨𝑵𝑱𝑼 Xᴾᴿᴼ 𝑵𝑬𝑾𝑺 』* 🗞️
+
+✨ *${source.toUpperCase()} News Update*
+
+📌 *Title:* ${newsData.title}
+📅 *Date:* ${newsData.date || "N/A"}
+
+📝 *Description:*
+${newsData.desc || "No details available"}
+${isGroup ? `\n\n📨 *Shared In:* ${groupMetadata?.subject || "Group"}\n🛡️ *Admin:* ${conf.MNAME}\n` : ""}
+🔗 *Read more:* ${newsData.url}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━`.trim();
+  },
+  AUTOMOVIE: function (title, rating, metadata, description, isGroup, groupMetadata, conf) {
+    return `
+🎬 *『 𝑨𝑵𝑱𝑼 Xᴾᴿᴼ 𝑪𝑰𝑵𝑬𝑴𝑨 』* 🍿
+
+✨ *𝙼𝚘𝚟𝚒𝚎 𝙽𝚊𝚖𝚎:* ${title}
+⭐ *𝙸𝙼𝙳𝙱 𝚁𝚊𝚝𝚒𝚗𝚐:* ${rating?.value || "𝙽/𝙰"} ★
+📆 *𝚁𝚎𝚕𝚎𝚊𝚜𝚎 𝙳𝚊𝚝𝚎:* ${metadata?.releaseDate || "𝙽/𝙰"}
+🌐 *𝙲𝚘𝚞𝚗𝚝𝚛𝚢:* ${metadata?.country || "𝙽/𝙰"}
+⏱️ *𝙳𝚞𝚛𝚊𝚝𝚒𝚘𝚗:* ${metadata?.runtime || "𝙽/𝙰"}
+🎭 *𝙶𝚎𝚗𝚛𝚎𝚜:* ${metadata?.genres?.map(g => `#${g}`).join(" • ") || "𝙽/𝙰"}
+
+${isGroup ? `📨 *𝙎𝙝𝙖𝙧𝙚𝙙 𝙄𝙣:* ${groupMetadata?.subject || "Group"}\n🛡️ *𝘼𝙙𝙢𝙞𝙣:* ${conf.MNAME}` : ""}
+
+📝 *𝙈𝚘𝚟𝚒𝚎 𝙎𝚞𝚖𝚖𝚊𝚛𝚢:*
+${description || "— 𝙉𝙤 𝙙𝙚𝙩𝙖𝙞𝙡𝙨 𝙖𝙫𝙖𝙞𝙡𝙖𝙗𝙡𝙚 —"}
+
+━━━━━━━━━━━━━━━
+${configs.FOOTER}`.trim();
+  },
+  AUTOSONG: function (foundSong, currentArtist, nextArtist, config, botNumber) {
+    return `
+    ✨ *『 𝑨𝑵𝑱𝑼 Xᴾᴿᴼ 𝑴𝑼𝑺𝑰𝑪 』* 🎧
+    
+    ━━━━━━━━━━━━━━━━━━━
+    🎶 *𝚂𝙾𝙽𝙶 𝙳𝙴𝚃𝙰𝙸𝙻𝚂* 🎼
+    ╠➤ *𝚃𝚒𝚝𝚕𝚎:* ${foundSong.title}
+    ╠➤ *𝙰𝚛𝚝𝚒𝚜𝚝:* ${currentArtist.replace(" original", "")}
+    ╠➤ *𝙳𝚞𝚛𝚊𝚝𝚒𝚘𝚗:* ${foundSong.timestamp || "𝙽/𝙰"}
+    ╠➤ *𝚅𝚒𝚎𝚠𝚜:* ${foundSong.views.toLocaleString() || "𝙽/𝙰"}
+    ╠➤ *𝚄𝚙𝚕𝚘𝚊𝚍𝚎𝚍:* ${foundSong.ago || "𝙽/𝙰"}
+    ╠➤ *𝙽𝚎𝚡𝚝 𝙰𝚛𝚝𝚒𝚜𝚝:* ${nextArtist}
+    ━━━━━━━━━━━━━━━━━━━
+    📌 *𝚈𝚘𝚞𝚃𝚞𝚋𝚎 𝙻𝙸𝙽𝙺:* 
+    ${foundSong.url}
+    ${isGroup ? `
+    
+    ━━━━━━━━━━━━━━━━━━━
+    👥 *𝙶𝚁𝙾𝚄𝙿 𝙸𝙽𝙵𝙾* 
+    ╠➤ *𝙽𝚊𝚖𝚎:* ${groupMetadata?.subject || "Group"}
+    ╠➤ *𝙰𝚍𝚖𝚒𝚗:* ${config.MNAME}
+    ╠➤ *𝙱𝚘𝚝 𝙽𝚞𝚖𝚋𝚎𝚛:* ${botNumber}
+    ━━━━━━━━━━━━━━━━━━━
+    ` : ""}
+    ${config.FOOTER || "🎼 Enjoy the music! 🎧"}`.trim();
+  }
 };
